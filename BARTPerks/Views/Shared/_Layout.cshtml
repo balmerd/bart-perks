@@ -19,7 +19,7 @@
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 </head>
-<body class="html not-front not-logged-in no-sidebars page-reward-participation perk2-not-logged-in perk2-pages cus-user-anonymous cus-hide-breadcrumb">
+<body class="html not-front not-logged-in no-sidebars perk2-not-logged-in perk2-pages cus-user-anonymous cus-hide-breadcrumb">
     <a href="#main-content" class="element-invisible element-focusable utility-nav">Skip to main content</a>
     <div class="page-wrap">
         <div class="page">
@@ -314,12 +314,7 @@
             <div id="main" class="pge-wdt clearfix">
                 <div class="main-content-wrap">
                     <div class="main-content">
-                        <div class="title-wrapper clearfix">
-                            <h1 class="title" id="page-title">@ViewBag.Title</h1>
-                        </div>
-                        <div class="region region-content">
-                            @RenderBody()
-                        </div>
+                        @RenderBody()
                     </div>
                 </div>
             </div>

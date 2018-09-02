@@ -8,5 +8,6 @@ namespace BARTPerks.Models
     public class PerksModel
     {
         public string CouponCode { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

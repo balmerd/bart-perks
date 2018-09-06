@@ -136,6 +136,22 @@
     <Content Include="Content\css-3.css" />
     <Content Include="Content\css-4.css" />
     <Content Include="Content\css-5.css" />
+    <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\images\icon-menu-about.svg" />
+    <Content Include="Content\images\icon-menu-arrows.svg" />
+    <Content Include="Content\images\icon-menu-bike.svg" />
+    <Content Include="Content\images\icon-menu-fares.svg" />
+    <Content Include="Content\images\icon-menu-location.svg" />
+    <Content Include="Content\images\icon-menu-news.svg" />
+    <Content Include="Content\images\icon-white-email.svg" />
+    <Content Include="Content\images\icon-white-facebook.svg" />
+    <Content Include="Content\images\icon-white-pinterest.svg" />
+    <Content Include="Content\images\icon-white-rss.svg" />
+    <Content Include="Content\images\icon-white-twitter.svg" />
+    <Content Include="Content\images\icon-white-youtube.svg" />
+    <Content Include="Content\images\icon_clipperCard.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logo_perks.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -167,6 +183,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Perks\JoinWaitList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Perks\GiftCardSignup.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

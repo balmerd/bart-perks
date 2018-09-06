@@ -68,6 +68,7 @@ namespace BARTPerks.Controllers
             var apiManager = new APIManager();
 
             ViewBag.Message = "";
+
             var response = apiManager.JoinWaitList(model.EmailAddress);
 
             if (response.StatusCode.Equals(HttpStatusCode.OK))
@@ -83,6 +84,37 @@ namespace BARTPerks.Controllers
             {
 
             }
+
+            return View(model);
+        }
+
+        public ActionResult GiftCardSignup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GiftCardSignup(PerksModel model, string Action)
+        {
+            //var apiManager = new APIManager();
+
+            //ViewBag.Message = "";
+
+            //var response = apiManager.GiftCardSignup(model);
+
+            //if (response.StatusCode.Equals(HttpStatusCode.OK))
+            //{
+            //    if (response.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
+            //    {
+            //    }
+            //    else
+            //    {
+            //    }
+            //}
+            //else
+            //{
+
+            //}
 
             return View(model);
         }

@@ -38,6 +38,19 @@ namespace BARTPerks.DAL
             return response;
         }
 
+        //public JoinWaitListResponse GiftCardSignup(PerksModel model)
+        //{
+        //    var request = GetRequestObject(String.Format("{0}/waitlist", baseUrl), method: "POST");
+        //    var jsonData = JsonConvert.SerializeObject(new JoinWaitListRequest { email = emailAddress });
+
+        //    AddJSONDataToRequest(request, jsonData);
+
+        //    var apiResponse = GetAPIResponse(request);
+        //    var response = JsonConvert.DeserializeObject<JoinWaitListResponse>(apiResponse.JSONResponseString);
+        //    response.StatusCode = apiResponse.StatusCode;
+        //    return response;
+        //}
+
         private HttpWebRequest GetRequestObject(string url, string method = "GET")
         {
             HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;

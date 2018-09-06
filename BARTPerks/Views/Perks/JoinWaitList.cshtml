@@ -2,43 +2,42 @@
 
 @{
     ViewBag.Title = "Enrollment Signup";
+    ViewBag.BodyClasses = "page-enrollment-sign-up";
 }
 
-<div class="page-enrollment-sign-up">
-    <div class="title-wrapper clearfix">
-        <h1 class="title" id="page-title">@ViewBag.Title</h1>
-    </div>
-    <div class="region region-content">
-        <div class="enroll-desc">
-            <span class="es-closed">BART Perks enrollment is closed</span>
-            <p>BART Perks is in private beta right now. If you would like to be notified about future opportunities to participate, sign up here.</p>
-            <div id="block-system-main" class="block block-system">
-                <div class="content">
-                    @using (Html.BeginForm("JoinWaitList", "Perks", FormMethod.Post, new { @id = "bart-perk-enrollment-signup-form", enctype = "multipart/form-data", @class = "bart-perk-custom-form" }))
-                    {
-                        <div>
-                            <div class="ls-static-bart-content">
-                                <div class="ls-content">
-                                    <img src="~/Content/images/logo_perks.png" alt="BART Logo">
-                                    <p>
-                                        Are you a peak period BART rider in need of some Participation requires a coupon code breathing room? BART Perks gives Clipper Card users occasional rewards to shift to less crowded trains and advises you on less crowded times to travel.
-                                        If you sign up, you’ll also be eligible to receive occasional rewards for weekend travel.
-                                    </p>
-                                    <p>BART Perks is a test program. Participation is limited and by invitation only. For more information, read the <a href="/Bartperklocal/">FAQs</a></p>
-                                </div>
-                            </div>
-                            <div class="es-container perk-form-right">
-                                <div class="form-item form-type-textfield form-item-email">
-                                    <label class="element-invisible" for="edit-email">Email Address <span class="form-required" title="This field is required.">*</span></label>
-                                    @Html.TextBoxFor(m => m.EmailAddress, new { @class = "user-email form-text required", id = "edit-email", name = "email", @size = "60", @maxlength = "128", autocomplete = "off", placeholder = "Email Address" })
-                                    <div class="description">Email Address.</div>
-                                </div>
-                                <input class="custom-form-submit cus-btn-disabled form-submit" type="submit" id="edit-submit" name="op" value="SIGN-UP" disabled="disabled">
-                                <div class="terms-condition">By clicking the Sign Up button, you agree to our <a href="/">Terms &amp; Conditions</a>, and <a href="/">Privacy Policy</a>.</div>
+<div class="title-wrapper clearfix">
+    <h1 class="title" id="page-title">@ViewBag.Title</h1>
+</div>
+<div class="region region-content">
+    <div class="enroll-desc">
+        <span class="es-closed">BART Perks enrollment is closed</span>
+        <p>BART Perks is in private beta right now. If you would like to be notified about future opportunities to participate, sign up here.</p>
+        <div id="block-system-main" class="block block-system">
+            <div class="content">
+                @using (Html.BeginForm("JoinWaitList", "Perks", FormMethod.Post, new { @id = "bart-perk-enrollment-signup-form", enctype = "multipart/form-data", @class = "bart-perk-custom-form" }))
+                {
+                    <div>
+                        <div class="ls-static-bart-content">
+                            <div class="ls-content">
+                                <img src="~/Content/images/logo_perks.png" alt="BART Logo">
+                                <p>
+                                    Are you a peak period BART rider in need of some Participation requires a coupon code breathing room? BART Perks gives Clipper Card users occasional rewards to shift to less crowded trains and advises you on less crowded times to travel.
+                                    If you sign up, you’ll also be eligible to receive occasional rewards for weekend travel.
+                                </p>
+                                <p>BART Perks is a test program. Participation is limited and by invitation only. For more information, read the <a href="/Bartperklocal/">FAQs</a></p>
                             </div>
                         </div>
-                    }
-                </div>
+                        <div class="es-container perk-form-right">
+                            <div class="form-item form-type-textfield form-item-email">
+                                <label class="element-invisible" for="edit-email">Email Address <span class="form-required" title="This field is required.">*</span></label>
+                                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "user-email form-text required", id = "edit-email", name = "email", @size = "60", @maxlength = "128", autocomplete = "off", placeholder = "Email Address" })
+                                <div class="description">Email Address.</div>
+                            </div>
+                            <input class="custom-form-submit cus-btn-disabled form-submit" type="submit" id="edit-submit" name="op" value="SIGN-UP" disabled="disabled">
+                            <div class="terms-condition">By clicking the Sign Up button, you agree to our <a href="/">Terms &amp; Conditions</a>, and <a href="/">Privacy Policy</a>.</div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>

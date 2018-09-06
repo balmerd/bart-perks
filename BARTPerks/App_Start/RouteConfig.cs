@@ -15,7 +15,8 @@ namespace BARTPerks
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
+                //url: "{controller}/{action}/{id}",
+                url: "{action}/{id}",
                 defaults: new { controller = "Perks", action = "RewardParticipation", id = UrlParameter.Optional }
             );
         }

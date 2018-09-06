@@ -2,48 +2,46 @@
 
 @{
     ViewBag.Title = "Welcome";
+    ViewBag.BodyClasses = "page-reward-participation";
 }
 
-<div class="page-reward-participation">
-    <div class="title-wrapper clearfix">
-        <h1 class="title" id="page-title">@ViewBag.Title</h1>
-    </div>
-    <div class="region region-content">
-        <div class="copon-code-desc">
-            <p>Welcome to</p><img src="~/Content/images/logo_perks.png" class="cc-form-bart-logo" alt="BART Logo">
-            <p>Get rewarded for riding at less crowded times</p>
-            <div id="block-system-main" class="block block-system">
-                <div class="content">
-                    @using (Html.BeginForm("RewardParticipation", "Perks", FormMethod.Post, new { @id = "bart-perk-custom-coupon-code-form", enctype = "multipart/form-data", @class = "bart-perk-custom-form" }))
-                    {
-                        <div>
-                            <div class="ls-static-bart-content">
-                                <div class="ls-content">
-                                    <p>
-                                        Are you a peak period BART rider in need of some Participation requires a coupon code breathing room? BART Perks gives Clipper Card users occasional rewards to shift to less crowded trains and advises you on less crowded times to travel.
-                                        If you sign up, you’ll also be eligible to receive occasional rewards for weekend travel.
-                                    </p>
-                                    <p>
-                                        BART Perks is a test program. Participation is limited and by invitation only. For more information, read the <a href="/Bartperklocal/">FAQs</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="cc-container perk-form-right">
-                                <p>Participation requires a coupon code</p>
-                                <div class="form-item form-type-textfield form-item-coupon-code">
-                                    <label class="element-invisible" for="edit-coupon-code">Coupon Code <span class="form-required" title="This field is required.">*</span></label>
-                                    @Html.TextBoxFor(m => m.CouponCode, new { @class = "coupon-code form-text required", id = "edit-coupon-code", name = "coupon_code", @size = "60", @maxlength = "128", autocomplete = "off", placeholder = "Enter Coupon Code" })
-                                    <div class="description">Coupon Code.</div>
-                                </div>
-                                <div class="cc-submit">
-                                    <input class="custom-form-submit cus-btn-disabled form-submit" type="submit" id="edit-submit" name="op" value="SUBMIT" disabled="disabled">
-                                </div>
+<div class="title-wrapper clearfix">
+    <h1 class="title" id="page-title">@ViewBag.Title</h1>
+</div>
+<div class="region region-content">
+    <div class="copon-code-desc">
+        <p>Welcome to</p><img src="~/Content/images/logo_perks.png" class="cc-form-bart-logo" alt="BART Logo">
+        <p>Get rewarded for riding at less crowded times</p>
+        <div id="block-system-main" class="block block-system">
+            <div class="content">
+                @using (Html.BeginForm("RewardParticipation", "Perks", FormMethod.Post, new { @id = "bart-perk-custom-coupon-code-form", enctype = "multipart/form-data", @class = "bart-perk-custom-form" }))
+                {
+                    <div>
+                        <div class="ls-static-bart-content">
+                            <div class="ls-content">
+                                <p>
+                                    Are you a peak period BART rider in need of some Participation requires a coupon code breathing room? BART Perks gives Clipper Card users occasional rewards to shift to less crowded trains and advises you on less crowded times to travel.
+                                    If you sign up, you’ll also be eligible to receive occasional rewards for weekend travel.
+                                </p>
+                                <p>
+                                    BART Perks is a test program. Participation is limited and by invitation only. For more information, read the <a href="/Bartperklocal/">FAQs</a>
+                                </p>
                             </div>
                         </div>
-                    }
-                </div>
+                        <div class="cc-container perk-form-right">
+                            <p>Participation requires a coupon code</p>
+                            <div class="form-item form-type-textfield form-item-coupon-code">
+                                <label class="element-invisible" for="edit-coupon-code">Coupon Code <span class="form-required" title="This field is required.">*</span></label>
+                                @Html.TextBoxFor(m => m.CouponCode, new { @class = "coupon-code form-text required", id = "edit-coupon-code", name = "coupon_code", @size = "60", @maxlength = "128", autocomplete = "off", placeholder = "Enter Coupon Code" })
+                                <div class="description">Coupon Code.</div>
+                            </div>
+                            <div class="cc-submit">
+                                <input class="custom-form-submit cus-btn-disabled form-submit" type="submit" id="edit-submit" name="op" value="SUBMIT" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
 </div>
-

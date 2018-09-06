@@ -9,5 +9,8 @@ namespace BARTPerks.Models
     {
         public string CouponCode { get; set; }
         public string EmailAddress { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string ClipperCardNumber { get; set; }
     }
 }

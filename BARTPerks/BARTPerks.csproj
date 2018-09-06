@@ -185,7 +185,7 @@
     <Content Include="Views\Perks\JoinWaitList.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Perks\GiftCardSignup.cshtml" />
+    <Content Include="Views\Perks\Signup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Perks\SignupComplete.cshtml" />

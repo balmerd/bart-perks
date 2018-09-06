@@ -49,7 +49,7 @@ namespace BARTPerks.Controllers
                             }
                             else
                             {
-                                return View("GiftCardSignup", model);
+                                return View("Signup", model);
                             }
                         }
                         else
@@ -121,7 +121,7 @@ namespace BARTPerks.Controllers
             return View(model);
         }
 
-        public ActionResult GiftCardSignup()
+        public ActionResult Signup()
         {
             ViewBag.Message = "";
             ViewBag.AlertMessage = "";
@@ -130,7 +130,7 @@ namespace BARTPerks.Controllers
         }
 
         [HttpPost]
-        public ActionResult GiftCardSignup(PerksModel model, string Action)
+        public ActionResult Signup(PerksModel model, string Action)
         {
             ViewBag.Message = "";
             ViewBag.AlertMessage = "";

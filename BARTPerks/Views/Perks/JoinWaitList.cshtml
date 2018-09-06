@@ -16,6 +16,7 @@
             <div class="content">
                 @using (Html.BeginForm("JoinWaitList", "Perks", FormMethod.Post, new { @id = "bart-perk-enrollment-signup-form", enctype = "multipart/form-data", @class = "bart-perk-custom-form" }))
                 {
+                    @Html.HiddenFor(m => m.CouponCode)
                     <div>
                         <div class="ls-static-bart-content">
                             <div class="ls-content">

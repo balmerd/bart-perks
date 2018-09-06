@@ -4,7 +4,11 @@
     ViewBag.Title = "Gift Card Signup";
     ViewBag.BodyClasses = "page-gift-card page-gift-card-signup";
 }
-
+<style>
+    .page-gift-card.page-gift-card-signup .main-content-wrap .gc-wrap .signup-wrap > form {
+        display: block !important;
+    }
+</style>
 <div class="title-wrapper clearfix">
     <h1 class="title" id="page-title">@ViewBag.Title</h1>
 </div>
@@ -28,28 +32,30 @@
                 <div class="gc-wrap">
                     <div class="gc-signup-form">
                         <div class="signup-wrap">
-                            <form class="bart-perk-custom-form" action="/gift-card/signup" method="post" id="bart-sso-custom-signup-form" accept-charset="UTF-8" style="display: block;">
+                            @using (Html.BeginForm("Signup", "Perks", FormMethod.Post, new { @id = "bart-sso-custom-signup-form", enctype = "multipart/form-data", @class = "bart-perk-custom-form" }))
+                            {
+                                @Html.HiddenFor(m => m.CouponCode)
                                 <div>
                                     <div class="gift-card-container">
                                         <div class="form-item form-type-textfield form-item-first-name">
                                             <label class="element-invisible" for="edit-first-name">First Name <span class="form-required" title="This field is required.">*</span></label>
-                                            <input placeholder="First Name" class="user-first-name form-text required" type="text" id="edit-first-name" name="first_name" value="" size="60" maxlength="128" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "user-first-name form-text required", id = "edit-first-name", name = "first_name", @size = "60", @maxlength = "128", placeholder = "First Name", style = "background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" })
                                             <div class="description">First Name.</div>
                                         </div>
                                         <div class="form-item form-type-textfield form-item-last-name">
                                             <label class="element-invisible" for="edit-last-name">Last Name <span class="form-required" title="This field is required.">*</span></label>
-                                            <input placeholder="Last Name" class="user-last-name form-text required" type="text" id="edit-last-name" name="last_name" value="" size="60" maxlength="128">
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "user-last-name form-text required", id = "edit-last-name", name = "last_name", @size = "60", @maxlength = "128", placeholder = "Last Name" })
                                             <div class="description">Last Name.</div>
                                         </div>
                                         <div class="form-item form-type-textfield form-item-email">
                                             <label class="element-invisible" for="edit-email--2">Email Address <span class="form-required" title="This field is required.">*</span></label>
-                                            <input placeholder="Email Address" class="user-email form-text required" type="text" id="edit-email--2" name="email" value="" size="60" maxlength="128">
+                                            @Html.TextBoxFor(m => m.EmailAddress, new { @class = "user-email form-text required", id = "edit-email--2", name = "email", @size = "60", @maxlength = "128", placeholder = "Email Address" })
                                             <div class="description">Email Address.</div>
                                         </div>
                                         <div class="clip-card-container">
                                             <div class="form-item form-type-textfield form-item-clip-card-number">
                                                 <label class="element-invisible" for="edit-clip-card-number">Clipper Card Number <span class="form-required" title="This field is required.">*</span></label>
-                                                <input placeholder="Clipper Card Number" class="user-clip-num form-text required" type="text" id="edit-clip-card-number" name="clip_card_number" value="" size="60" maxlength="128">
+                                                @Html.TextBoxFor(m => m.ClipperCardNumber, new { @class = "user-clip-num form-text required", id = "edit-clip-card-number", name = "clip_card_number", @size = "60", @maxlength = "128", placeholder = "Clipper Card Number" })
                                                 <div class="description">Clipper Card Number.</div>
                                             </div>
                                             <div class="clip-card-img"><img src="~/Content/images/icon_clipperCard.png" alt="Clipper-Card"></div>
@@ -57,11 +63,11 @@
                                                 <label class="element-invisible" for="edit-password--2">Password <span class="form-required" title="This field is required.">*</span></label>
                                                 <div class="form-item form-type-password form-item-password-pass1">
                                                     <label class="element-invisible" for="edit-password-pass1">Password <span class="form-required" title="This field is required.">*</span></label>
-                                                    <input class="password-field form-text required" placeholder="Create Password" type="password" id="edit-password-pass1" name="password[pass1]" size="60" maxlength="128" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIUlEQVQ4EX2TOYhTURSG87IMihDsjGghBhFBmHFDHLWwSqcikk4RRKJgk0KL7C8bMpWpZtIqNkEUl1ZCgs0wOo0SxiLMDApWlgOPrH7/5b2QkYwX7jvn/uc//zl3edZ4PPbNGvF4fC4ajR5VrNvt/mo0Gr1ZPOtfgWw2e9Lv9+chX7cs64CS4Oxg3o9GI7tUKv0Q5o1dAiTfCgQCLwnOkfQOu+oSLyJ2A783HA7vIPLGxX0TgVwud4HKn0nc7Pf7N6vV6oZHkkX8FPG3uMfgXC0Wi2vCg/poUKGGcagQI3k7k8mcp5slcGswGDwpl8tfwGJg3xB6Dvey8vz6oH4C3iXcFYjbwiDeo1KafafkC3NjK7iL5ESFGQEUF7Sg+ifZdDp9GnMF/KGmfBdT2HCwZ7TwtrBPC7rQaav6Iv48rqZwg+F+p8hOMBj0IbxfMdMBrW5pAVGV/ztINByENkU0t5BIJEKRSOQ3Aj+Z57iFs1R5NK3EQS6HQqF1zmQdzpFWq3W42WwOTAf1er1PF2USFlC+qxMvFAr3HcexWX+QX6lUvsKpkTyPSEXJkw6MQ4S38Ljdbi8rmM/nY+CvgNcQqdH6U/xrYK9t244jZv6ByUOSiDdIfgBZ12U6dHEHu9TpdIr8F0OP692CtzaW/a6y3y0Wx5kbFHvGuXzkgf0xhKnPzA4UTyaTB8Ph8AvcHi3fnsrZ7Wore02YViqVOrRXXPhfqP8j6MYlawoAAAAASUVORK5CYII=&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                                    @Html.TextBoxFor(m => m.Password, new { @class = "password-field form-text required", id = "edit-password-pass1", name = "password[pass1]", @size = "60", @maxlength = "128", placeholder = "Create Password", style = "background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIUlEQVQ4EX2TOYhTURSG87IMihDsjGghBhFBmHFDHLWwSqcikk4RRKJgk0KL7C8bMpWpZtIqNkEUl1ZCgs0wOo0SxiLMDApWlgOPrH7/5b2QkYwX7jvn/uc//zl3edZ4PPbNGvF4fC4ajR5VrNvt/mo0Gr1ZPOtfgWw2e9Lv9+chX7cs64CS4Oxg3o9GI7tUKv0Q5o1dAiTfCgQCLwnOkfQOu+oSLyJ2A783HA7vIPLGxX0TgVwud4HKn0nc7Pf7N6vV6oZHkkX8FPG3uMfgXC0Wi2vCg/poUKGGcagQI3k7k8mcp5slcGswGDwpl8tfwGJg3xB6Dvey8vz6oH4C3iXcFYjbwiDeo1KafafkC3NjK7iL5ESFGQEUF7Sg+ifZdDp9GnMF/KGmfBdT2HCwZ7TwtrBPC7rQaav6Iv48rqZwg+F+p8hOMBj0IbxfMdMBrW5pAVGV/ztINByENkU0t5BIJEKRSOQ3Aj+Z57iFs1R5NK3EQS6HQqF1zmQdzpFWq3W42WwOTAf1er1PF2USFlC+qxMvFAr3HcexWX+QX6lUvsKpkTyPSEXJkw6MQ4S38Ljdbi8rmM/nY+CvgNcQqdH6U/xrYK9t244jZv6ByUOSiDdIfgBZ12U6dHEHu9TpdIr8F0OP692CtzaW/a6y3y0Wx5kbFHvGuXzkgf0xhKnPzA4UTyaTB8Ph8AvcHi3fnsrZ7Wore02YViqVOrRXXPhfqP8j6MYlawoAAAAASUVORK5CYII=&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" })
                                                 </div>
                                                 <div class="form-item form-type-password form-item-password-pass2">
                                                     <label class="element-invisible" for="edit-password-pass2">Confirm password <span class="form-required" title="This field is required.">*</span></label>
-                                                    <input class="password-confirm form-text required" placeholder="Confirm Password" type="password" id="edit-password-pass2" name="password[pass2]" size="60" maxlength="128" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIUlEQVQ4EX2TOYhTURSG87IMihDsjGghBhFBmHFDHLWwSqcikk4RRKJgk0KL7C8bMpWpZtIqNkEUl1ZCgs0wOo0SxiLMDApWlgOPrH7/5b2QkYwX7jvn/uc//zl3edZ4PPbNGvF4fC4ajR5VrNvt/mo0Gr1ZPOtfgWw2e9Lv9+chX7cs64CS4Oxg3o9GI7tUKv0Q5o1dAiTfCgQCLwnOkfQOu+oSLyJ2A783HA7vIPLGxX0TgVwud4HKn0nc7Pf7N6vV6oZHkkX8FPG3uMfgXC0Wi2vCg/poUKGGcagQI3k7k8mcp5slcGswGDwpl8tfwGJg3xB6Dvey8vz6oH4C3iXcFYjbwiDeo1KafafkC3NjK7iL5ESFGQEUF7Sg+ifZdDp9GnMF/KGmfBdT2HCwZ7TwtrBPC7rQaav6Iv48rqZwg+F+p8hOMBj0IbxfMdMBrW5pAVGV/ztINByENkU0t5BIJEKRSOQ3Aj+Z57iFs1R5NK3EQS6HQqF1zmQdzpFWq3W42WwOTAf1er1PF2USFlC+qxMvFAr3HcexWX+QX6lUvsKpkTyPSEXJkw6MQ4S38Ljdbi8rmM/nY+CvgNcQqdH6U/xrYK9t244jZv6ByUOSiDdIfgBZ12U6dHEHu9TpdIr8F0OP692CtzaW/a6y3y0Wx5kbFHvGuXzkgf0xhKnPzA4UTyaTB8Ph8AvcHi3fnsrZ7Wore02YViqVOrRXXPhfqP8j6MYlawoAAAAASUVORK5CYII=&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                                    @Html.TextBoxFor(m => m.PasswordConfirm, new { @class = "password-confirm form-text required", id = "edit-password-pass1", name = "password[pass2]", @size = "60", @maxlength = "128", placeholder = "Confirm Password", style = "background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIUlEQVQ4EX2TOYhTURSG87IMihDsjGghBhFBmHFDHLWwSqcikk4RRKJgk0KL7C8bMpWpZtIqNkEUl1ZCgs0wOo0SxiLMDApWlgOPrH7/5b2QkYwX7jvn/uc//zl3edZ4PPbNGvF4fC4ajR5VrNvt/mo0Gr1ZPOtfgWw2e9Lv9+chX7cs64CS4Oxg3o9GI7tUKv0Q5o1dAiTfCgQCLwnOkfQOu+oSLyJ2A783HA7vIPLGxX0TgVwud4HKn0nc7Pf7N6vV6oZHkkX8FPG3uMfgXC0Wi2vCg/poUKGGcagQI3k7k8mcp5slcGswGDwpl8tfwGJg3xB6Dvey8vz6oH4C3iXcFYjbwiDeo1KafafkC3NjK7iL5ESFGQEUF7Sg+ifZdDp9GnMF/KGmfBdT2HCwZ7TwtrBPC7rQaav6Iv48rqZwg+F+p8hOMBj0IbxfMdMBrW5pAVGV/ztINByENkU0t5BIJEKRSOQ3Aj+Z57iFs1R5NK3EQS6HQqF1zmQdzpFWq3W42WwOTAf1er1PF2USFlC+qxMvFAr3HcexWX+QX6lUvsKpkTyPSEXJkw6MQ4S38Ljdbi8rmM/nY+CvgNcQqdH6U/xrYK9t244jZv6ByUOSiDdIfgBZ12U6dHEHu9TpdIr8F0OP692CtzaW/a6y3y0Wx5kbFHvGuXzkgf0xhKnPzA4UTyaTB8Ph8AvcHi3fnsrZ7Wore02YViqVOrRXXPhfqP8j6MYlawoAAAAASUVORK5CYII=&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" })
                                                 </div>
                                                 <div class="description">Enter the same password in both fields.</div>
                                             </div>
@@ -69,11 +75,8 @@
                                             <div class="terms-condition">By clicking the Sign Up button, you agree to our <a href="/">Terms &amp; Conditions</a>, and <a href="/">Privacy Policy</a>.</div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="form_build_id" value="form-ru85NNlYX3cBnhAIvjIZbrMknD8gUG28OgtT7k3asFc">
-                                    <input type="hidden" name="form_token" value="CMJrK8AT3H4mJM5bNkA_RgbEJnkqPW7402akTppAIUo">
-                                    <input type="hidden" name="form_id" value="bart_sso_custom_signup_form">
                                 </div>
-                            </form>
+                            }
                         </div>
                     </div>
                 </div>

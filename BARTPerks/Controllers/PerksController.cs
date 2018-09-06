@@ -15,74 +15,107 @@ namespace BARTPerks.Controllers
     {
         public ActionResult RewardParticipation()
         {
+            ViewBag.Message = "";
+            ViewBag.AlertMessage = "";
+
             return View();
         }
 
         [HttpPost]
         public ActionResult RewardParticipation(PerksModel model, string Action)
         {
-            var apiManager = new APIManager();
-
             ViewBag.Message = "";
+            ViewBag.AlertMessage = "";
 
-            var response = apiManager.ValidateCouponCode(model.CouponCode);
-
-            if (response.StatusCode.Equals(HttpStatusCode.OK))
+            try
             {
-                if (response.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    // currently happens when code not found
-                }
-                else
-                {
-                    if (response.data.valid)
-                    {
+                var apiManager = new APIManager();
+                var apiResponse = apiManager.ValidateCouponCode(model.CouponCode);
 
+                if (apiResponse.StatusCode.Equals(HttpStatusCode.OK))
+                {
+                    if (apiResponse.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        // currently happens when code not found
+                        ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
                     }
                     else
                     {
-
+                        if (apiResponse.data.valid)
+                        {
+                            if (model.CouponCode.Equals("BART-TEST-2"))
+                            {
+                                return View("JoinWaitList", model);
+                            }
+                            else
+                            {
+                                return View("GiftCardSignup", model);
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                        }
                     }
                 }
+                else if (apiResponse.StatusCode.Equals(HttpStatusCode.NotFound))
+                {
+                    ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                }
+                else
+                {
+                    ViewBag.Message = JsonConvert.SerializeObject(apiResponse);
+                    return View("Error", model);
+                }
             }
-            else if (response.StatusCode.Equals(HttpStatusCode.NotFound))
+            catch (Exception ex)
             {
-
+                ViewBag.Message = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
+                return View("Error", model);
             }
-            else
-            {
 
-            }
-            
             return View(model);
         }
 
         public ActionResult JoinWaitList()
         {
+            ViewBag.Message = "";
+            ViewBag.AlertMessage = "";
+
             return View();
         }
 
         [HttpPost]
         public ActionResult JoinWaitList(PerksModel model, string Action)
         {
-            var apiManager = new APIManager();
-
             ViewBag.Message = "";
+            ViewBag.AlertMessage = "";
 
-            var response = apiManager.JoinWaitList(model.EmailAddress);
-
-            if (response.StatusCode.Equals(HttpStatusCode.OK))
+            try
             {
-                if (response.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
+                var apiManager = new APIManager();
+                var apiResponse = apiManager.JoinWaitList(model.EmailAddress);
+
+                if (apiResponse.StatusCode.Equals(HttpStatusCode.OK))
                 {
+                    if (apiResponse.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                    }
+                    else
+                    {
+                    }
                 }
                 else
                 {
+                    ViewBag.Message = JsonConvert.SerializeObject(apiResponse);
+                    return View("Error", model);
                 }
             }
-            else
+            catch (Exception ex)
             {
-
+                ViewBag.Message = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
+                return View("Error", model);
             }
 
             return View(model);
@@ -90,33 +123,55 @@ namespace BARTPerks.Controllers
 
         public ActionResult GiftCardSignup()
         {
+            ViewBag.Message = "";
+            ViewBag.AlertMessage = "";
+
             return View();
         }
 
         [HttpPost]
         public ActionResult GiftCardSignup(PerksModel model, string Action)
         {
-            //var apiManager = new APIManager();
+            ViewBag.Message = "";
+            ViewBag.AlertMessage = "";
 
-            //ViewBag.Message = "";
+            try
+            {
+                var apiManager = new APIManager();
+                var apiResponse = apiManager.GiftCardSignup(model);
 
-            //var response = apiManager.GiftCardSignup(model);
-
-            //if (response.StatusCode.Equals(HttpStatusCode.OK))
-            //{
-            //    if (response.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
-            //    {
-            //    }
-            //    else
-            //    {
-            //    }
-            //}
-            //else
-            //{
-
-            //}
+                if (apiResponse.StatusCode.Equals(HttpStatusCode.OK))
+                {
+                    if (apiResponse.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                    }
+                    else
+                    {
+                        return View("SignupComplete", model);
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = JsonConvert.SerializeObject(apiResponse);
+                    return View("Error", model);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
+                return View("Error", model);
+            }
 
             return View(model);
+        }
+
+        public ActionResult SignupComplete()
+        {
+            ViewBag.Message = "";
+            ViewBag.AlertMessage = "";
+
+            return View();
         }
     }
 }

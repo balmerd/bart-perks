@@ -6,24 +6,44 @@ using System.Web;
 
 namespace BARTPerks.Models
 {
+    public class BaseAPIResponse
+    {
+        public string URI { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
+    }
+
     public class JoinWaitListRequest
     {
         public string email { get; set; }
     }
 
-    public class JoinWaitListResponse
+    public class UserSignupRequest
     {
-        public string status { get; set; }
-        public HttpStatusCode StatusCode { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string cid { get; set; } // Clipper Card ID
+        public string email { get; set; }
+        public string invitiation_code { get; set; }
     }
 
-    public class APIResponse
+    public class Auth0TokenResponse
     {
-        public HttpStatusCode StatusCode { get; set; }
+        public string id_token;
+        public string access_token;
+        public string token_type;
+    }
+
+    public class APIResponse : BaseAPIResponse
+    {
         public string JSONResponseString { get; set; }
     }
 
-    public class CouponCodeValidationResponse
+    public class JoinWaitListResponse : BaseAPIResponse
+    {
+        public string status { get; set; }
+    }
+
+    public class CouponCodeValidationResponse : BaseAPIResponse
     {
         // request status.
         public string status { get; set; }
@@ -32,9 +52,6 @@ namespace BARTPerks.Models
         public string error { get; set; }
 
         public CouponCodeValidationResponseData data { get; set; }
-
-        // not part of the JSON response, added by me to capture the HTTP status
-        public HttpStatusCode StatusCode { get; set; }
     }
 
     public class CouponCodeValidationResponseData

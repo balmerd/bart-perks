@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using log4net;
-using log4net.Config;
 using Newtonsoft.Json;
 using BARTPerks.Models;
 
@@ -19,7 +18,7 @@ namespace BARTPerks.DAL
         {
             var request = GetRequestObject(String.Format("{0}/invitations/{1}", baseUrl, couponCode));
             var apiResponse = GetAPIResponse(request);
-            var response = JsonConvert.DeserializeObject<CouponCodeValidationResponse>(apiResponse.JSONResponseString);
+            var response = JsonConvert.DeserializeObject<CouponCodeValidationResponse>(apiResponse.JSONString);
             response.URI = apiResponse.URI;
             response.StatusCode = apiResponse.StatusCode;
             log.Debug(JsonConvert.SerializeObject(response));
@@ -28,26 +27,28 @@ namespace BARTPerks.DAL
 
         public JoinWaitListResponse JoinWaitList(string emailAddress)
         {
-            var request = GetRequestObject(String.Format("{0}/user", baseUrl), method: "POST");
+            var request = GetRequestObject(String.Format("{0}/waitlist", baseUrl), method: "POST");
             var jsonData = JsonConvert.SerializeObject(new JoinWaitListRequest { email = emailAddress });
 
             AddJSONDataToRequest(request, jsonData);
 
             var apiResponse = GetAPIResponse(request);
-            var response = JsonConvert.DeserializeObject<JoinWaitListResponse>(apiResponse.JSONResponseString);
+            var response = JsonConvert.DeserializeObject<JoinWaitListResponse>(apiResponse.JSONString);
             response.URI = apiResponse.URI;
             response.StatusCode = apiResponse.StatusCode;
+            log.Debug(JsonConvert.SerializeObject(response));
             return response;
         }
 
-        public JoinWaitListResponse GiftCardSignup(PerksModel model)
+        public UserSignupResponse UserSignup(PerksModel model)
         {
-            var app = RequestAuthAppToken(model);
-            var user = RequestAuthUserToken(model);
-            var request = GetRequestObject(String.Format("{0}/waitlist", baseUrl), method: "POST", token: app.access_token);
+            var app = RequestAppAuthToken();
+            var user = RequestUserAuthToken(model);
+            var request = GetRequestObject(String.Format("{0}/signup", baseUrl), method: "POST", token: app.access_token);
 
-            var jsonData = JsonConvert.SerializeObject(new UserSignupRequest {
-                _id = user._id,
+            var jsonData = JsonConvert.SerializeObject(new UserSignupRequest
+            {
+                user_id = user._id,
                 first_name = model.FirstName,
                 last_name = model.LastName,
                 cid = model.ClipperCardNumber,
@@ -58,9 +59,10 @@ namespace BARTPerks.DAL
             AddJSONDataToRequest(request, jsonData);
 
             var apiResponse = GetAPIResponse(request);
-            var response = JsonConvert.DeserializeObject<JoinWaitListResponse>(apiResponse.JSONResponseString);
+            var response = JsonConvert.DeserializeObject<UserSignupResponse>(apiResponse.JSONString);
             response.URI = apiResponse.URI;
             response.StatusCode = apiResponse.StatusCode;
+            log.Debug(JsonConvert.SerializeObject(response));
             return response;
         }
 
@@ -81,7 +83,7 @@ namespace BARTPerks.DAL
 
         private APIResponse GetAPIResponse(HttpWebRequest request)
         {
-            string jsonResponseString = string.Empty;
+            string JSONString = string.Empty;
             HttpWebResponse response = null;
             Stream dataStream = null;
             StreamReader reader = null;
@@ -95,9 +97,24 @@ namespace BARTPerks.DAL
                 // Open the stream using a StreamReader for easy access.
                 reader = new StreamReader(dataStream);
                 // Read the content.
-                jsonResponseString = reader.ReadToEnd();
+                JSONString = reader.ReadToEnd();
 
-                apiResponse = new APIResponse { URI = request.RequestUri.AbsoluteUri, StatusCode = response.StatusCode, JSONResponseString = jsonResponseString };
+                apiResponse = new APIResponse { URI = request.RequestUri.AbsoluteUri, StatusCode = response.StatusCode, JSONString = JSONString };
+            }
+            catch (WebException ex)
+            {
+                if (ex.Response != null)
+                {
+                    using (var errorResponse = (HttpWebResponse)ex.Response)
+                    {
+                        using (var errorReader = new StreamReader(errorResponse.GetResponseStream()))
+                        {
+                            JSONString = errorReader.ReadToEnd();
+
+                            apiResponse = new APIResponse { URI = request.RequestUri.AbsoluteUri, StatusCode = errorResponse.StatusCode, JSONString = JSONString };
+                        }
+                    }
+                }
             }
             finally
             {

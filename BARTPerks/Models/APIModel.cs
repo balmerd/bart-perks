@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Web;
 
 namespace BARTPerks.Models
 {
-    public class BaseAPIResponse
+    public class APIResponse
     {
         public string URI { get; set; }
+        public string JSONString { get; set; }
         public HttpStatusCode StatusCode { get; set; }
+        // returned on 400 error
+        public string code { get; set; }
+        public string description { get; set; }
     }
 
     public class JoinWaitListRequest
@@ -19,7 +20,7 @@ namespace BARTPerks.Models
 
     public class UserSignupRequest
     {
-        public string _id { get; set; }
+        public string user_id { get; set; } // from Auth0
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string cid { get; set; } // Clipper Card ID
@@ -27,17 +28,23 @@ namespace BARTPerks.Models
         public string invitiation_code { get; set; }
     }
 
-    public class APIResponse : BaseAPIResponse
+    public class UserSignupResponse : APIResponse
     {
-        public string JSONResponseString { get; set; }
+        public string status { get; set; }
+        public UserSignupResponseData data { get; set; }
     }
 
-    public class JoinWaitListResponse : BaseAPIResponse
+    public class UserSignupResponseData : UserSignupRequest
+    {
+        public string uid { get; set; }
+    }
+
+    public class JoinWaitListResponse : APIResponse
     {
         public string status { get; set; }
     }
 
-    public class CouponCodeValidationResponse : BaseAPIResponse
+    public class CouponCodeValidationResponse : APIResponse
     {
         // request status.
         public string status { get; set; }

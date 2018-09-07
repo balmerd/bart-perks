@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BARTPerks.Models;
 using System.Net;
+using System.Web.Mvc;
 using Newtonsoft.Json;
-using System.IO;
 using BARTPerks.DAL;
+using BARTPerks.Models;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -51,7 +47,7 @@ namespace BARTPerks.Controllers
                             }
                             else
                             {
-                                return View("Signup", model);
+                                return View("UserSignup", model);
                             }
                         }
                         else
@@ -123,7 +119,7 @@ namespace BARTPerks.Controllers
             return View(model);
         }
 
-        public ActionResult Signup()
+        public ActionResult UserSignup()
         {
             ViewBag.Message = "";
             ViewBag.AlertMessage = "";
@@ -132,7 +128,7 @@ namespace BARTPerks.Controllers
         }
 
         [HttpPost]
-        public ActionResult Signup(PerksModel model, string Action)
+        public ActionResult UserSignup(PerksModel model, string Action)
         {
             ViewBag.Message = "";
             ViewBag.AlertMessage = "";
@@ -140,7 +136,7 @@ namespace BARTPerks.Controllers
             try
             {
                 var apiManager = new APIManager();
-                var apiResponse = apiManager.GiftCardSignup(model);
+                var apiResponse = apiManager.UserSignup(model);
 
                 if (apiResponse.StatusCode.Equals(HttpStatusCode.OK))
                 {

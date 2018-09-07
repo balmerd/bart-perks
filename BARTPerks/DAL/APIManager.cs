@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Web;
-using System.Web.Mvc;
+using log4net;
+using log4net.Config;
 using Newtonsoft.Json;
 using BARTPerks.Models;
-using System.Collections.Specialized;
 
 namespace BARTPerks.DAL
 {
-    public class APIManager
+    public partial class APIManager
     {
-        private string baseUrl = ConfigurationManager.AppSettings["APIBaseUrl"];
+        private static readonly string baseUrl = ConfigurationManager.AppSettings["APIBaseUrl"];
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CouponCodeValidationResponse ValidateCouponCode(string couponCode)
         {
@@ -24,6 +22,7 @@ namespace BARTPerks.DAL
             var response = JsonConvert.DeserializeObject<CouponCodeValidationResponse>(apiResponse.JSONResponseString);
             response.URI = apiResponse.URI;
             response.StatusCode = apiResponse.StatusCode;
+            log.Debug(JsonConvert.SerializeObject(response));
             return response;
         }
 
@@ -36,15 +35,19 @@ namespace BARTPerks.DAL
 
             var apiResponse = GetAPIResponse(request);
             var response = JsonConvert.DeserializeObject<JoinWaitListResponse>(apiResponse.JSONResponseString);
+            response.URI = apiResponse.URI;
             response.StatusCode = apiResponse.StatusCode;
             return response;
         }
 
         public JoinWaitListResponse GiftCardSignup(PerksModel model)
         {
-            var request = GetRequestObject(String.Format("{0}/waitlist", baseUrl), method: "POST", token: RequestAuth0IdToken(model));
+            var app = RequestAuthAppToken(model);
+            var user = RequestAuthUserToken(model);
+            var request = GetRequestObject(String.Format("{0}/waitlist", baseUrl), method: "POST", token: app.access_token);
 
             var jsonData = JsonConvert.SerializeObject(new UserSignupRequest {
+                _id = user._id,
                 first_name = model.FirstName,
                 last_name = model.LastName,
                 cid = model.ClipperCardNumber,
@@ -56,6 +59,7 @@ namespace BARTPerks.DAL
 
             var apiResponse = GetAPIResponse(request);
             var response = JsonConvert.DeserializeObject<JoinWaitListResponse>(apiResponse.JSONResponseString);
+            response.URI = apiResponse.URI;
             response.StatusCode = apiResponse.StatusCode;
             return response;
         }
@@ -135,80 +139,6 @@ namespace BARTPerks.DAL
                     dataStream.Close();
                 }
             }
-        }
-
-        private string RequestAuth0IdToken(PerksModel model)
-        {
-            /* 
-             * FROM https://mail.google.com/mail/u/0/#search/auth0/16523694c6d5377d
-             * 
-                Method - POST
-                URL - https://bart-sso-dev.auth0.com/dbconnections/signup
-                Headers
-                    Content-Type - application/json
-                BODY
-                {
-                    "client_id": "eMANjbzwCtxlK6tNACaGXDkSukQoQHAE", 
-                    "email": "bimesh@gmail.com", 
-                    "connection": "bartdb-dev", 
-                    "password": "123456qwerty!", 
-                    "user_metadata": { 
-                        "first_name": "bimesh", 
-                        "last_name": "giri", 
-                        "mobile": "818-3578904", 
-                        "preferences": ""
-                    }, 
-                    "email_verified": true, 
-                    "app_metadata": { 
-                        "source_ref": "app"
-                    }
-                }
-             */
-            string id_token = "";
-            string token_request_url = ConfigurationManager.AppSettings["auth0:token_request_url"];
-            string client_id = ConfigurationManager.AppSettings["auth0:client_id"];
-            string username = model.EmailAddress;
-            string password = model.Password;
-            string connection = ConfigurationManager.AppSettings["auth0:connection"];
-            string grant_type = ConfigurationManager.AppSettings["auth0:grant_type"];
-            string scope = ConfigurationManager.AppSettings["auth0:scope"];
-
-            if (string.IsNullOrEmpty(token_request_url) ||
-                string.IsNullOrEmpty(client_id) ||
-                string.IsNullOrEmpty(username) ||
-                string.IsNullOrEmpty(password) ||
-                string.IsNullOrEmpty(connection) ||
-                string.IsNullOrEmpty(grant_type) ||
-                string.IsNullOrEmpty(scope))
-            {
-                throw new Exception("Application settings for Auth0 token request are missing.");
-            }
-
-            using (var client = new WebClient())
-            {
-                var reqParams = new NameValueCollection();
-
-                reqParams.Add("client_id", client_id);
-                reqParams.Add("username", username);
-                reqParams.Add("password", password);
-                reqParams.Add("connection", connection);
-                reqParams.Add("grant_type", grant_type);
-                reqParams.Add("scope", scope);
-                reqParams.Add("id_token", "");
-                reqParams.Add("device", "");
-
-                client.Headers.Add("ContentType", "x-www-form-urlencoded");
-
-                client.UploadValues(token_request_url, "POST", reqParams);
-
-                var responseBytes = client.UploadValues(token_request_url, "POST", reqParams);
-                var responseBody = Encoding.UTF8.GetString(responseBytes);
-                var tokenResponse = JsonConvert.DeserializeObject<Auth0TokenResponse>(responseBody);
-
-                id_token = tokenResponse.id_token;
-            }
-
-            return id_token;
         }
     }
 }

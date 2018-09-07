@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using System.IO;
 using BARTPerks.DAL;
 
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+
 namespace BARTPerks.Controllers
 {
     public class PerksController : Controller

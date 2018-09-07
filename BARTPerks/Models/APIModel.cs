@@ -19,18 +19,12 @@ namespace BARTPerks.Models
 
     public class UserSignupRequest
     {
+        public string _id { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string cid { get; set; } // Clipper Card ID
         public string email { get; set; }
         public string invitiation_code { get; set; }
-    }
-
-    public class Auth0TokenResponse
-    {
-        public string id_token;
-        public string access_token;
-        public string token_type;
     }
 
     public class APIResponse : BaseAPIResponse

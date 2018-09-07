@@ -13,8 +13,8 @@ namespace BARTPerks.Controllers
     {
         public ActionResult RewardParticipation()
         {
-            ViewBag.Message = "";
-            ViewBag.AlertMessage = "";
+            ViewBag.ErrorMessage = "";
+            ViewBag.ErrorDetails = "";
 
             return View();
         }
@@ -23,7 +23,8 @@ namespace BARTPerks.Controllers
         public ActionResult RewardParticipation(PerksModel model, string Action)
         {
             ViewBag.Message = "";
-            ViewBag.AlertMessage = "";
+            ViewBag.ErrorMessage = "";
+            ViewBag.ErrorDetails = "";
 
             try
             {
@@ -35,7 +36,8 @@ namespace BARTPerks.Controllers
                     if (apiResponse.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
                     {
                         // currently happens when code not found
-                        ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                        ViewBag.ErrorMessage = apiResponse.error;
+                        ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                     }
                     else
                     {
@@ -43,6 +45,7 @@ namespace BARTPerks.Controllers
                         {
                             if (model.CouponCode.Equals("BART-TEST-2"))
                             {
+                                ViewBag.ErrorDetails = "BART-TEST-2 redirects to the JoinWaitList page for debugging";
                                 return View("JoinWaitList", model);
                             }
                             else
@@ -52,23 +55,27 @@ namespace BARTPerks.Controllers
                         }
                         else
                         {
-                            ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                            ViewBag.ErrorMessage = "Invalid response from the API";
+                            ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                         }
                     }
                 }
                 else if (apiResponse.StatusCode.Equals(HttpStatusCode.NotFound))
                 {
-                    ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                    ViewBag.ErrorMessage = "Bad Invitation Code";
+                    ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                 }
                 else
                 {
-                    ViewBag.Message = JsonConvert.SerializeObject(apiResponse);
+                    ViewBag.ErrorMessage = string.Format("Unexpected HttpStatusCode: {0}", apiResponse.StatusCode);
+                    ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                     return View("Error", model);
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Message = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
+                ViewBag.ErrorMessage = "Exception calling the API";
+                ViewBag.ErrorDetails = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
                 return View("Error", model);
             }
 
@@ -78,7 +85,8 @@ namespace BARTPerks.Controllers
         public ActionResult JoinWaitList()
         {
             ViewBag.Message = "";
-            ViewBag.AlertMessage = "";
+            ViewBag.ErrorMessage = "";
+            ViewBag.ErrorDetails = "";
 
             return View();
         }
@@ -87,7 +95,8 @@ namespace BARTPerks.Controllers
         public ActionResult JoinWaitList(PerksModel model, string Action)
         {
             ViewBag.Message = "";
-            ViewBag.AlertMessage = "";
+            ViewBag.ErrorMessage = "";
+            ViewBag.ErrorDetails = "";
 
             try
             {
@@ -98,21 +107,26 @@ namespace BARTPerks.Controllers
                 {
                     if (apiResponse.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                        ViewBag.ErrorMessage = apiResponse.error;
+                        ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                     }
                     else
                     {
+                        ViewBag.Message = " you have been added to the waitlist.";
+                        return View("ProcessComplete", model);
                     }
                 }
                 else
                 {
-                    ViewBag.Message = JsonConvert.SerializeObject(apiResponse);
+                    ViewBag.ErrorMessage = string.Format("Unexpected HttpStatusCode: {0}", apiResponse.StatusCode);
+                    ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                     return View("Error", model);
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Message = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
+                ViewBag.ErrorMessage = "Exception calling the API";
+                ViewBag.ErrorDetails = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
                 return View("Error", model);
             }
 
@@ -122,7 +136,8 @@ namespace BARTPerks.Controllers
         public ActionResult UserSignup()
         {
             ViewBag.Message = "";
-            ViewBag.AlertMessage = "";
+            ViewBag.ErrorMessage = "";
+            ViewBag.ErrorDetails = "";
 
             return View();
         }
@@ -131,7 +146,8 @@ namespace BARTPerks.Controllers
         public ActionResult UserSignup(PerksModel model, string Action)
         {
             ViewBag.Message = "";
-            ViewBag.AlertMessage = "";
+            ViewBag.ErrorMessage = "";
+            ViewBag.ErrorDetails = "";
 
             try
             {
@@ -142,32 +158,36 @@ namespace BARTPerks.Controllers
                 {
                     if (apiResponse.status.Equals("error", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        ViewBag.AlertMessage = JsonConvert.SerializeObject(apiResponse);
+                        ViewBag.ErrorMessage = apiResponse.description;
+                        ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                     }
                     else
                     {
-                        return View("SignupComplete", model);
+                        ViewBag.Message = " your signup is complete!";
+                        return View("ProcessComplete", model);
                     }
                 }
                 else
                 {
-                    ViewBag.Message = JsonConvert.SerializeObject(apiResponse);
+                    ViewBag.ErrorMessage = string.Format("Unexpected HttpStatusCode: {0}", apiResponse.StatusCode);
+                    ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                     return View("Error", model);
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Message = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
+                ViewBag.ErrorMessage = "Exception calling the API";
+                ViewBag.ErrorDetails = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
                 return View("Error", model);
             }
 
             return View(model);
         }
 
-        public ActionResult SignupComplete()
+        public ActionResult ProcessComplete()
         {
-            ViewBag.Message = "";
-            ViewBag.AlertMessage = "";
+            ViewBag.ErrorMessage = "";
+            ViewBag.ErrorDetails = "";
 
             return View();
         }

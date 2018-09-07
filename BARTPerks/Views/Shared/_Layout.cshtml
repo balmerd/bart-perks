@@ -14,14 +14,22 @@
     <link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/vnd.microsoft.icon" />
     <title>BART Perks - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-
     <meta name="MobileOptimized" content="width">
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 </head>
 <body class="html not-front not-logged-in no-sidebars perk2-not-logged-in perk2-pages cus-user-anonymous cus-hide-breadcrumb @ViewBag.BodyClasses">
     <a href="#main-content" class="element-invisible element-focusable utility-nav">Skip to main content</a>
-    <div id="alertMessage" style="display:none;">@ViewBag.AlertMessage</div>
+    <div id="errorMessage" style="display:none;">@ViewBag.ErrorMessage</div>
+    <div id="errorDetails" style="display:none;">@ViewBag.ErrorDetails</div>
+    <div id="modal">
+        <div class="overlay"></div>
+        <div class="modal-message-container">
+            <div id="modal-message">
+                <!-- message here -->
+            </div>
+        </div>
+    </div>
     <div class="page-wrap">
         <div class="page">
             <header id="header" class="header">

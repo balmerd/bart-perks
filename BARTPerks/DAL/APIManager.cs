@@ -48,7 +48,7 @@ namespace BARTPerks.DAL
 
             var jsonData = JsonConvert.SerializeObject(new UserSignupRequest
             {
-                user_id = user._id,
+                uid = user._id,
                 first_name = model.FirstName,
                 last_name = model.LastName,
                 cid = model.ClipperCardNumber,

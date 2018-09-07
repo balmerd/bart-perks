@@ -161,6 +161,7 @@
     <Content Include="Content\images\icon_clipperCard.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo_perks.png" />
+    <Content Include="Content\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -194,10 +195,10 @@
     <Content Include="Views\Perks\JoinWaitList.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Perks\Signup.cshtml" />
+    <Content Include="Views\Perks\UserSignup.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Perks\SignupComplete.cshtml" />
+    <Content Include="Views\Perks\ProcessComplete.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

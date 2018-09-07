@@ -10,7 +10,9 @@ namespace BARTPerks.Models
         public HttpStatusCode StatusCode { get; set; }
         // returned on 400 error
         public string code { get; set; }
+        public string message { get; set; }
         public string description { get; set; }
+        public string policy { get; set; } // returned when code = "invalid_password"
     }
 
     public class JoinWaitListRequest
@@ -20,7 +22,7 @@ namespace BARTPerks.Models
 
     public class UserSignupRequest
     {
-        public string user_id { get; set; } // from Auth0
+        public string uid { get; set; } // from Auth0
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string cid { get; set; } // Clipper Card ID
@@ -42,6 +44,7 @@ namespace BARTPerks.Models
     public class JoinWaitListResponse : APIResponse
     {
         public string status { get; set; }
+        public string error { get; set; }
     }
 
     public class CouponCodeValidationResponse : APIResponse

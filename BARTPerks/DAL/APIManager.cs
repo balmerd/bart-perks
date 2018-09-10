@@ -44,6 +44,31 @@ namespace BARTPerks.DAL
         {
             var app = RequestAppAuthToken();
             var user = RequestUserAuthToken(model);
+
+            if (app.StatusCode.Equals(HttpStatusCode.BadRequest))
+            {
+                return new UserSignupResponse
+                {
+                    StatusCode = app.StatusCode,
+                    code = app.code,
+                    message = app.message,
+                    description = app.description,
+                    policy = app.policy
+                };
+            }
+
+            if (user.StatusCode.Equals(HttpStatusCode.BadRequest))
+            {
+                return new UserSignupResponse
+                {
+                    StatusCode = user.StatusCode,
+                    code = user.code,
+                    message = user.message,
+                    description = user.description,
+                    policy = user.policy
+                };
+            }
+
             var request = GetRequestObject(String.Format("{0}/signup", baseUrl), method: "POST", token: app.access_token);
 
             var jsonData = JsonConvert.SerializeObject(new UserSignupRequest

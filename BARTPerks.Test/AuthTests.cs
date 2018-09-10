@@ -28,7 +28,7 @@ namespace BARTPerks.Test
         }
 
         [TestMethod]
-        public void UserAuthTokenSuccess()
+        public void UserAuthTokenFailure()
         {
             var apiResponse = apiManager.RequestUserAuthToken(new PerksModel
             {

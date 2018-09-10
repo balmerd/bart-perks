@@ -43,9 +43,8 @@ namespace BARTPerks.Controllers
                     {
                         if (apiResponse.data.valid)
                         {
-                            if (model.CouponCode.Equals("BART-TEST-2"))
+                            if (model.CouponCode.Equals("waitlist"))
                             {
-                                ViewBag.ErrorDetails = "BART-TEST-2 redirects to the JoinWaitList page for debugging";
                                 return View("JoinWaitList", model);
                             }
                             else
@@ -55,26 +54,26 @@ namespace BARTPerks.Controllers
                         }
                         else
                         {
-                            ViewBag.ErrorMessage = "Invalid response from the API";
+                            ViewBag.ErrorMessage = "Invalid coupon code.";
                             ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                         }
                     }
                 }
                 else if (apiResponse.StatusCode.Equals(HttpStatusCode.NotFound))
                 {
-                    ViewBag.ErrorMessage = "Bad Invitation Code";
+                    ViewBag.ErrorMessage = "Invalid coupon code.";
                     ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = string.Format("Unexpected HttpStatusCode: {0}", apiResponse.StatusCode);
+                    ViewBag.ErrorMessage = string.Format("Unexpected HttpStatusCode: {0}.", apiResponse.StatusCode);
                     ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                     return View("Error", model);
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Exception calling the API";
+                ViewBag.ErrorMessage = "Exception calling the API.";
                 ViewBag.ErrorDetails = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
                 return View("Error", model);
             }
@@ -82,8 +81,13 @@ namespace BARTPerks.Controllers
             return View(model);
         }
 
-        public ActionResult JoinWaitList()
+        public ActionResult JoinWaitList(PerksModel model)
         {
+            if (string.IsNullOrEmpty(model.CouponCode))
+            {
+                return RedirectToAction("RewardParticipation");
+            }
+
             ViewBag.Message = "";
             ViewBag.ErrorMessage = "";
             ViewBag.ErrorDetails = "";
@@ -100,6 +104,13 @@ namespace BARTPerks.Controllers
 
             try
             {
+#if DEBUG
+                if (model.EmailAddress == "me@home.com")
+                {
+                    ViewBag.Message = " you have been added to the waitlist.";
+                    return View("ProcessComplete", model);
+                }
+#endif
                 var apiManager = new APIManager();
                 var apiResponse = apiManager.JoinWaitList(model.EmailAddress);
 
@@ -118,14 +129,14 @@ namespace BARTPerks.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = string.Format("Unexpected HttpStatusCode: {0}", apiResponse.StatusCode);
+                    ViewBag.ErrorMessage = string.Format("Unexpected HttpStatusCode: {0}.", apiResponse.StatusCode);
                     ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
                     return View("Error", model);
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Exception calling the API";
+                ViewBag.ErrorMessage = "Exception calling the API.";
                 ViewBag.ErrorDetails = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
                 return View("Error", model);
             }
@@ -169,14 +180,13 @@ namespace BARTPerks.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = string.Format("Unexpected HttpStatusCode: {0}", apiResponse.StatusCode);
+                    ViewBag.ErrorMessage = apiResponse.description;
                     ViewBag.ErrorDetails = JsonConvert.SerializeObject(apiResponse);
-                    return View("Error", model);
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Exception calling the API";
+                ViewBag.ErrorMessage = "Exception calling the API.";
                 ViewBag.ErrorDetails = string.Format("{0} {1} {2}", ex.Source, ex.Message, ex.StackTrace);
                 return View("Error", model);
             }

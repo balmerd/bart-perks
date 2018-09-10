@@ -51,6 +51,7 @@
     <Compile Include="AuthTests.cs" />
     <Compile Include="CouponCodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WaitListTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
